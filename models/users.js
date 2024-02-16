@@ -50,9 +50,9 @@ usersSchema.path('email').validate((email)=>{
 
 }, 'The format of the email is wrong.')
 
-usersSchema.path('_password').validate((_password)=>{
+usersSchema.path('_password').validate((password)=>{
 
-    const passwordCount =  _password.length > 7 && _password.length < 21;
+    const passwordCount =  password.length > 7 && password.length < 21;
 
     return passwordCount;
 

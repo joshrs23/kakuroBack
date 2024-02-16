@@ -1,7 +1,7 @@
 {
-  "name": "CupidConnectBack",
+  "name": "kakuroBack",
   "version": "1.0.0",
-  "description": "backend CupidConnect",
+  "description": "backend kakuro",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "CupidConnectBack"
+    "url": "kakuroBack"
   },
   "author": "JoseSalazar",
   "license": "ISC",
