@@ -10,6 +10,16 @@ const usersSchema = new mongoose.Schema({
             dropDups: true
         },
     },
+
+    username: {
+        type: String,
+        required: true,
+        index: {
+            unique: true,
+            dropDups:true // Question, what is this?
+        }
+
+    },
     fname:{
         type: String,
         required: true,
@@ -24,17 +34,17 @@ const usersSchema = new mongoose.Schema({
     }
 }) 
 
-usersSchema.path('_email').validate(async(_email)=>{
+usersSchema.path('email').validate(async(email)=>{
 
-    const count = await mongoose.models.users.countDocuments({_email});
+    const count = await mongoose.models.users.countDocuments({email});
 
     return !count;
 
 }, 'Email already exists.')
 
-usersSchema.path('_email').validate((_email)=>{
+usersSchema.path('email').validate((email)=>{
 
-    const emailFormat =  _email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$/);
+    const emailFormat =  email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$/);
 
     return emailFormat;
 
@@ -49,6 +59,28 @@ usersSchema.path('_password').validate((_password)=>{
 }, 'Password size has to be minimun 8 values and maximun 20 characters.')
 
 
+// Validate username doesn't exist
+
+usersSchema.path('username').validate(async(username)=>{
+
+    const count = await mongoose.models.users.countDocuments({username});
+
+    return !count;
+
+}, 'Username already exists.')
+
+
+//Validate username format
+
+usersSchema.path('username').validate((username)=>{
+
+    const usernameFormat =  username.match(/^[a-zA-Z0-9_.-]*$/); //Change match ^[a-zA-Z0-9_.-]*$
+
+    return usernameFormat;
+
+}, 'The format of the username is wrong.')
+
+
 usersSchema.pre('save', function(next){
     if(this.isModified('_password')){
         bcrypt.hash(this._password, 9 , (err, hash) => {
@@ -59,10 +91,10 @@ usersSchema.pre('save', function(next){
     }
 })
 
-usersSchema.methods.comparePassword = async function(_password) {
-    if(!_password) throw new Error('Password is missing.')
+usersSchema.methods.comparePassword = async function(password) {
+    if(!password) throw new Error('Password is missing.')
     try{
-        const result = await bcrypt.compare(_password, this._password);
+        const result = await bcrypt.compare(password, this.password);
         return result;
     }catch(err){
         console.log('Error in password validation.', err.message)

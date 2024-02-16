@@ -5,7 +5,7 @@ mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URI , {useNewUrlParser: true, useUnifiedTopology: true})
     .then(()=>{
 
-        console.log('CuppidConect Database is connected');
+        console.log('Kakuro Database is connected');
 
     })
     .catch(

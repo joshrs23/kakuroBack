@@ -13,35 +13,46 @@ exports.createUser = async(req, res) => {
         const _active = true;
         const _type = 1;
 
+
+
         const {
 
             email,
-            _username,
-            _fname,
-            _lname,
-            _password,
-            country,
-            province,
-            city,
-            _address,
-            _dob
+            username,
+            fname,
+            lname,
+            password
 
-        } = req.body;      
+        } = req.body;   
+        
+
+        const findUsername = await Users.findOne({username})
+
+        if(findUsername){ 
+              return res.json({
+                  success: false,
+                  error: 'Username already exists',
+              })
+           }
+
+        const findEmail = await Users.findOne({email})
+
+        if(findEmail){ 
+              return res.json({
+                  success: false,
+                  error: 'Email already exists, please login',
+              })
+          }
+
+        
 
         const user = Users({
 
             email,
-            _username,
-            _fname,
-            _lname,
-            _password,
-            country,
-            province,
-            city,
-            _address,
-            _dob,
-            _type,
-            _active
+            username,
+            fname,
+            lname,
+            password,
 
         });
 
@@ -67,16 +78,6 @@ exports.createUser = async(req, res) => {
               
         } catch (validationError) {
 
-          if (validationError.errors && validationError.errors._email) {
-            
-            return res.json({
-
-              success: false,
-              error: 'Email already exists',
-
-            });
-
-          }
           
           return res.json({
 
@@ -90,45 +91,48 @@ exports.createUser = async(req, res) => {
     }catch(error){
         res.json({
           success: false,
-          error: "Error en el servidor "+error,
+          error: "Server error "+error,
         });
     }
 }
 
 
-exports.userSignIn = async (req, res)=> {
+exports.userLogIn = async (req, res)=> {
 
-    const {_email , _password} = req.body;
+  try {
 
-    const user = await Users.findOne({_email})
-    
-    if(!user){ 
-        return res.json({
+        const {username , password} = req.body;
+
+        const user = await Users.findOne({username})
+        
+        if(!user){ 
+            return res.json({
+                success: false,
+                error: 'Username does not exist',
+            })
+        }
+        
+
+        const isMatch = await user.comparePassword(password);
+
+        if(!isMatch) return res.json({
             success: false,
-            error: 'User is not registered.',
+            error: 'Incorrect password.',
         })
-    }
-    if(!user._active){
-        return res.json({
-            success: false,
-            error: 'User is not active.',
+
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
+            expiresIn: '1d'
         })
-    }
+        res.json({
+            success: true,
+            user: user,
+            token
+        })
+  } catch (error) {
 
-    const isMatch = await user.comparePassword(_password);
+        res.status(500).send('Server error')
 
-    if(!isMatch) return res.json({
-        success: false,
-        error: 'Incorrect password.',
-    })
+  }
 
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
-        expiresIn: '1d'
-    })
-    res.json({
-        success: true,
-        user: user,
-        token
-    })
 }
 
