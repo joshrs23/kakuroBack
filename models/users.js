@@ -50,7 +50,7 @@ usersSchema.path('email').validate((email)=>{
 
 }, 'The format of the email is wrong.')
 
-usersSchema.path('_password').validate((password)=>{
+usersSchema.path('password').validate((password)=>{
 
     const passwordCount =  password.length > 7 && password.length < 21;
 
@@ -82,10 +82,10 @@ usersSchema.path('username').validate((username)=>{
 
 
 usersSchema.pre('save', function(next){
-    if(this.isModified('_password')){
-        bcrypt.hash(this._password, 9 , (err, hash) => {
+    if(this.isModified('password')){
+        bcrypt.hash(this.password, 9 , (err, hash) => {
             if(err) return next(err);
-            this._password = hash;
+            this.password = hash;
             next();
         })
     }
