@@ -117,7 +117,7 @@ exports.userLogIn = async (req, res)=> {
 
         if(!isMatch) return res.json({
             success: false,
-            error: 'Incorrect password.',
+            error: 'Incorrect password or username',
         })
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
