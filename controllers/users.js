@@ -152,7 +152,7 @@ exports.userEmail = async (req, res)=> {
             })
         }
         
-        const mg = mailgun({apiKey: 'f1484d5df871fc4513bd5b356c44ccbc-309b0ef4-c31e2a14', domain: 'sandbox89e871c9ae0c4d0586551d617d7f21b4.mailgun.org'});
+        const mg = mailgun({apiKey: '****', domain: '*****'});
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
             expiresIn: '1d'
