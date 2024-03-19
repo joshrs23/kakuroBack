@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 //user
 app.use('/sign-in',express.json());
 app.use('/registration',express.json());
+app.use('/email-password',express.json());
 
 //routes
 app.use(userRouter);

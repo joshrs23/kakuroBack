@@ -136,3 +136,67 @@ exports.userLogIn = async (req, res)=> {
 
 }
 
+
+exports.userEmail = async (req, res)=> {
+
+  try {
+
+        const {email } = req.body;
+
+        const user = await Users.findOne({email})
+        
+        if(!user){ 
+            return res.json({
+                success: false,
+                error: 'Username does not exist',
+            })
+        }
+        
+        const mg = mailgun({apiKey: 'f1484d5df871fc4513bd5b356c44ccbc-309b0ef4-c31e2a14', domain: 'sandbox89e871c9ae0c4d0586551d617d7f21b4.mailgun.org'});
+
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
+            expiresIn: '1d'
+        })
+
+        const data = {
+          from: 'Excited User <joshrs23@gmail.com>', // Cambia a tu dirección de correo verificada en Mailgun
+          to: 'joshrs23@gmail.com', // La dirección de correo del destinatario
+          subject: 'Hola desde Mailgun',
+          text: 'Esto es una prueba de envío de correo electrónico utilizando Mailgun.',
+          html: '<h1>Hola desde Mailgun</h1><p>Esto es una prueba de envío de correo electrónico utilizando Mailgun.</p>'
+        };
+
+        
+        
+
+        mg.messages().send(data, function (error, body) {
+          console.log(body);
+          if (error) {
+
+            return res.json({
+                success: false,
+                error: error,
+            })
+
+          }
+          else{
+
+                res.json({
+                success: true,
+                user: user,
+                token
+            })
+
+          }
+        });
+
+  } catch (error) {
+
+        res.status(500).send('Server error')
+
+  }
+
+}
+
+
+
