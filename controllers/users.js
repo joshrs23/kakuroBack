@@ -158,12 +158,20 @@ exports.userEmail = async (req, res)=> {
         const mailgun = new Mailgun(formData);
         const mg = mailgun.client({username: 'api', key: API_KEY_MAILGUM || 'key-yourkeyhere'});
 
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+
+          expiresIn: '1d',
+
+        });
+
+        var link = `https://espacionebula.com/recover/${token}`;
+
         mg.messages.create(DOMAIN_MAILGUM, {
           from: "Excited User <joshrs23@gmail.com>",
           to: ["joshrs23@gmail.com"],
           subject: "Kakuro game",
-          text: "Esto es una prueba de envío de correo electrónico utilizando <strong>Mailgun</strong>.",
-          html: "<h1>Hola desde Mailgun</h1><p>Esto es una prueba de envío de correo electrónico utilizando Mailgun.</p>"
+          text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
+          html: "<h1>Hi "+ user.fname+",from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='"+link+"' target='_blank'>Change password</a>"
         })
         .then(msg => {
 
