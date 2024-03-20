@@ -152,6 +152,7 @@ exports.userEmail = async (req, res)=> {
                 error: 'Username does not exist',
             })
         }
+
         /*const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
             expiresIn: '1d'
         })*/
@@ -204,8 +205,24 @@ exports.userEmail = async (req, res)=> {
           text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
           html: "<h1>Hola desde Mailgun</h1><p>Esto es una prueba de envío de correo electrónico utilizando Mailgun.</p>"
         })
-        .then(msg => console.log(msg)) // logs response data
-        .catch(err => console.log(err)); // logs any error
+        .then(msg => {
+
+          //console.log(msg)
+          res.json({
+                success: true,
+                msg : 'Email sended!'
+          })
+
+        }) // logs response data
+        .catch(err => {
+
+          //console.log(err) 
+          return res.json({
+                success: false,
+                error: err,
+          })
+
+        }); // logs any error
 
   } catch (error) {
 
