@@ -171,7 +171,7 @@ exports.userEmail = async (req, res)=> {
           to: ["joshrs23@gmail.com"],
           subject: "Kakuro game",
           text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
-          html: "<h1>Hi "+ user.fname+",from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='"+link+"' target='_blank'>Change password</a>"
+          html: `<h1>Hi ${user.fname}, from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='${link}' target='_blank'>Change password</a>`
         })
         .then(msg => {
 
