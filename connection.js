@@ -8,6 +8,7 @@ require('./models/connectionMongoDb');
 const app = express();
 
 const userRouter = require('./routes/users');
+const levelRouter = require('./routes/levels');
 
 //app.use(cors());
 // Configuración de CORS
@@ -32,8 +33,10 @@ app.use('/sign-in',express.json());
 app.use('/registration',express.json());
 app.use('/email-password',express.json());
 
+
 //routes
 app.use(userRouter);
+app.use(levelRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

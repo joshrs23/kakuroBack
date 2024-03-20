@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 const auth = require('../middlewares/authenticate');
-
+const API_KEY_MAILGUM = process.env.API_KEY_MAILGUM; 
+const DOMAIN_MAILGUM = process.env.DOMAIN_MAILGUM; 
 const bcrypt = require('bcrypt');
 
 
@@ -152,11 +153,11 @@ exports.userEmail = async (req, res)=> {
             })
         }
         
-        const mg = mailgun({apiKey: '****', domain: '*****'});
+        const mg = mailgun({apiKey: API_KEY_MAILGUM, domain: DOMAIN_MAILGUM});
 
-        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
+        /*const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
             expiresIn: '1d'
-        })
+        })*/
 
         const data = {
           from: 'Excited User <joshrs23@gmail.com>', // Cambia a tu dirección de correo verificada en Mailgun
