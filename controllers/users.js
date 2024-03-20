@@ -152,12 +152,12 @@ exports.userEmail = async (req, res)=> {
                 error: 'Username does not exist',
             })
         }
-        
-        const mg = mailgun({apiKey: API_KEY_MAILGUM, domain: DOMAIN_MAILGUM});
-
         /*const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
             expiresIn: '1d'
         })*/
+
+        /*
+        const mg = mailgun({apiKey: API_KEY_MAILGUM, domain: DOMAIN_MAILGUM});
 
         const data = {
           from: 'Excited User <joshrs23@gmail.com>', // Cambia a tu dirección de correo verificada en Mailgun
@@ -189,11 +189,27 @@ exports.userEmail = async (req, res)=> {
             })
 
           }
-        });
+        });*/
+
+
+        const formData = require('form-data');
+        const Mailgun = require('mailgun.js');
+        const mailgun = new Mailgun(formData);
+        const mg = mailgun.client({username: 'api', key: API_KEY_MAILGUM || 'key-yourkeyhere'});
+
+        mg.messages.create(DOMAIN_MAILGUM, {
+          from: "Excited User <mailgun@sandbox-123.mailgun.org>",
+          to: ["joshrs23@gmail.com"],
+          subject: "Hola desde Mailgun",
+          text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
+          html: "<h1>Hola desde Mailgun</h1><p>Esto es una prueba de envío de correo electrónico utilizando Mailgun.</p>"
+        })
+        .then(msg => console.log(msg)) // logs response data
+        .catch(err => console.log(err)); // logs any error
 
   } catch (error) {
 
-        res.status(500).send('Server error')
+        res.status(500).send('Server error : '+ error.message)
 
   }
 
