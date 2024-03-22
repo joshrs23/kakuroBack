@@ -213,7 +213,7 @@ exports.recoveryUserLink = [auth,async (req, res)=> {
         if(userId){
 
             const recoverySuccess = await processUserRecovery(userId,password);
-            res.json({ success: true, message: recoverySuccess.message });
+            res.json({ success: recoverySuccess.success, message: recoverySuccess.msg });
 
         }else{
 
@@ -245,7 +245,7 @@ exports.recoveryUserWeb= [auth,async (req, res)=> {
         if(userId === _userId){
 
             const recoverySuccess = await processUserRecovery(userId,password);
-            res.json({ success: true, message: recoverySuccess.message });
+            res.json({ success: recoverySuccess.success, message: recoverySuccess.msg });
 
         }else{
 
