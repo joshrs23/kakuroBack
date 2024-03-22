@@ -46,7 +46,7 @@ exports.getHistories  = [auth,async(req, res)=>{
 exports.getHistoryUser = [auth,async (req, res) => {
 
     try {
-        const { user_id, level } = req.body;
+        const { user_id } = req.body;
 
         const token = req.header('Authorization');
         const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
@@ -54,7 +54,7 @@ exports.getHistoryUser = [auth,async (req, res) => {
 
         if(user_id === _userId){
 
-            const histories = await History.find({ userId: user_id, level: level }).sort({ time: 1 });
+            const histories = await History.find({ userId: user_id }).sort({ time: 1 });
 
             if (!histories) {
 
