@@ -9,6 +9,7 @@ const app = express();
 
 const userRouter = require('./routes/users');
 const levelRouter = require('./routes/levels');
+const historyRouter = require('./routes/histories');
 
 //app.use(cors());
 // Configuración de CORS
@@ -33,10 +34,16 @@ app.use('/sign-in',express.json());
 app.use('/registration',express.json());
 app.use('/email-password',express.json());
 
+//histories
+app.use('/get-records',express.json());
+app.use('/get-user-history',express.json());
+app.use('/add-history',express.json());
+
 
 //routes
 app.use(userRouter);
 app.use(levelRouter);
+app.use(historyRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

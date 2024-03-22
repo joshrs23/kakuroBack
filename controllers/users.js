@@ -4,6 +4,7 @@ const auth = require('../middlewares/authenticate');
 const API_KEY_MAILGUM = process.env.API_KEY_MAILGUM; 
 const DOMAIN_MAILGUM = process.env.DOMAIN_MAILGUM; 
 const bcrypt = require('bcrypt');
+const auth = require('../middlewares/authenticate');
 
 
 
@@ -160,35 +161,35 @@ exports.userEmail = async (req, res)=> {
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
 
-          expiresIn: '1d',
+            expiresIn: '1d',
 
         });
 
         var link = `https://espacionebula.com/recover/${token}`;
 
         mg.messages.create(DOMAIN_MAILGUM, {
-          from: "Excited User <joshrs23@gmail.com>",
-          to: ["joshrs23@gmail.com"],
-          subject: "Kakuro game",
-          text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
-          html: `<h1>Hi ${user.fname}, from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='${link}' target='_blank'>Change password</a>`
+            from: "Excited User <joshrs23@gmail.com>",
+            to: ["joshrs23@gmail.com"],
+            subject: "Kakuro game",
+            text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
+            html: `<h1>Hi ${user.fname}, from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='${link}' target='_blank'>Change password</a>`
         })
         .then(msg => {
 
-          //console.log(msg)
-          res.json({
+            //console.log(msg)
+            res.json({
                 success: true,
                 msg : 'Email sended!'
-          })
+            })
 
         }) // logs response data
         .catch(err => {
 
-          //console.log(err) 
-          return res.json({
+            //console.log(err) 
+            return res.json({
                 success: false,
                 error: err,
-          })
+            })
 
         }); // logs any error
 
@@ -200,5 +201,108 @@ exports.userEmail = async (req, res)=> {
 
 }
 
+exports.recoveryUserLink = [auth,async (req, res)=> {
+
+  try {
+
+        const { password } = req.body; 
+
+        const token = req.header('Authorization');
+        const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+        const userId = decodedToken.userId;
+
+        if(userId){
+
+            const recoverySuccess = await processUserRecovery(userId,password);
+            res.json({ success: true, message: recoverySuccess.message });
+
+        }else{
+
+          return res.json({
+                success: false,
+                error: 'Error problem with the validation of the token!',
+          })
+
+        }
+
+  } catch (error) {
+
+        res.status(500).send('Server error : '+ error.message)
+
+  }
+
+}];
+
+exports.recoveryUserWeb= [auth,async (req, res)=> {
+
+  try {
+
+        const { userId,password } = req.body; 
+
+        const token = req.header('Authorization');
+        const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+        const _userId = decodedToken.userId;
+
+        if(userId === _userId){
+
+            const recoverySuccess = await processUserRecovery(userId,password);
+            res.json({ success: true, message: recoverySuccess.message });
+
+        }else{
+
+            res.json({
+
+                success: false,
+                error: "This user is not the owner of the account.",
+
+            });
+        }
+
+    } catch (error) {
+
+        res.status(500).send('Server error : '+ error.message)
+
+    }
+
+}];
+
+const processUserRecovery = async (userId, _password) => {
+
+  try {
+        const user = await Users.findById({userId})
+        
+        if(!user){ 
+
+            return {
+                success: false,
+                error: 'User not found.',
+            };
+        }
+
+        const result = await Users.updateOne({ _id: userId }, { $push: { password: _password } });
+
+        if (result.nModified === 1) {
+
+            return {
+                success: true,
+                msg : 'Password was updated!'
+            };
+
+        } else {
+          
+          return {
+                success: false,
+                error: 'Error updating password, try again!',
+          };
+
+        }
+
+    } catch (error) {
+
+        return { success: false, error: 'Server error: ' + error.message };
+
+    }
+
+};
 
 
