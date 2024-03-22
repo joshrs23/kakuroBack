@@ -4,7 +4,6 @@ const auth = require('../middlewares/authenticate');
 const API_KEY_MAILGUM = process.env.API_KEY_MAILGUM; 
 const DOMAIN_MAILGUM = process.env.DOMAIN_MAILGUM; 
 const bcrypt = require('bcrypt');
-const auth = require('../middlewares/authenticate');
 
 
 
