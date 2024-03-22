@@ -268,7 +268,7 @@ exports.recoveryUserWeb= [auth,async (req, res)=> {
 const processUserRecovery = async (userId, _password) => {
 
   try {
-        const user = await Users.findById({userId})
+        const user = await Users.findById(userId)
         
         if(!user){ 
 
