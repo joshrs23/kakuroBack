@@ -9,6 +9,10 @@ const levelsSchema = new mongoose.Schema({
             unique: true, 
             dropDups: true
         },
+    },
+    size:{
+        type: Number,
+        required: true,
     }
 }) 
 

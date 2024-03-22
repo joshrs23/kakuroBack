@@ -164,7 +164,7 @@ exports.userEmail = async (req, res)=> {
 
         });
 
-        var link = `https://espacionebula.com/recover/${token}`;
+        var link = `http://localhost:3000/recover/${token}`;
 
         mg.messages.create(DOMAIN_MAILGUM, {
             from: "Excited User <joshrs23@gmail.com>",
