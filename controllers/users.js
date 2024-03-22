@@ -274,7 +274,7 @@ const processUserRecovery = async (userId, _password) => {
 
             return {
                 success: false,
-                error: 'User not found.',
+                msg: 'User not found.',
             };
         }
 
@@ -291,14 +291,14 @@ const processUserRecovery = async (userId, _password) => {
           
           return {
                 success: false,
-                error: 'Error updating password, try again!',
+                msg: 'Error updating password, try again!',
           };
 
         }
 
     } catch (error) {
 
-        return { success: false, error: 'Server error: ' + error.message };
+        return { success: false, msg: 'Server error: ' + error.message };
 
     }
 
