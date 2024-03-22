@@ -33,6 +33,8 @@ app.use((req, res, next) => {
 app.use('/sign-in',express.json());
 app.use('/registration',express.json());
 app.use('/email-password',express.json());
+app.use('/recover-l-password',express.json());
+app.use('/recover-password',express.json());
 
 //histories
 app.use('/get-records',express.json());
