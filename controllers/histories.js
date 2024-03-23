@@ -1,6 +1,7 @@
 const History = require('../models/histories');
 const auth = require('../middlewares/authenticate');
 const Users = require('../models/users');
+const jwt = require('jsonwebtoken');
 
 exports.getHistories  = [auth,async(req, res)=>{
 
