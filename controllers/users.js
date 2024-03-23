@@ -280,9 +280,9 @@ const processUserRecovery = async (userId, _password) => {
 
         const hashedPassword = await bcrypt.hash(_password, 9);
 
-        const result = await Users.updateOne({ _id: userId }, { $push: { password: hashedPassword  } });
+        const result = await Users.updateOne({ _id: userId }, { $set: { password: hashedPassword  } });
 
-        if (result.nModified === 1) {
+        if (result.modifiedCount === 1) {
 
             return {
                 success: true,
