@@ -7,7 +7,7 @@ const board = require('./boards');
 exports.CreateGame = [auth,async (req, res) => {
 
     try {
-        const { user_id, boardId, levelId } = req.body;
+        const { user_id, levelId } = req.body;
 
         const token = req.header('Authorization');
         const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
