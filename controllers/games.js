@@ -15,6 +15,20 @@ exports.CreateGame = [auth,async (req, res) => {
 
         if(user_id === _userId){
 
+            const ongoingGame = await Game.findOne({
+              userId: user_id,
+              status: true
+            });
+
+            if (ongoingGame) {
+              
+                return res.json({
+                    success: false,
+                    error: 'User already has an existing game!',
+                    game: ongoingGame.board 
+                })
+
+            }
 
             const randomBoard = await board.getBoards(levelId);
 
