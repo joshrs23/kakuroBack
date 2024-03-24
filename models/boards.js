@@ -13,4 +13,4 @@ const boardSchema  = new mongoose.Schema({
 }) 
 
 
-module.exports = mongoose.model('levels', boardSchema )
+module.exports = mongoose.model('boards', boardSchema )
