@@ -111,7 +111,7 @@ exports.addHistoryUser = [auth,async (req, res) => {
 
         if(user_id === _userId){
 
-            const history = History.find({ 
+            const history = History({ 
                 userId: user_id, 
                 level: level,
                 time:time 
@@ -119,7 +119,6 @@ exports.addHistoryUser = [auth,async (req, res) => {
 
             await history.save();
 
-            
 
             res.json({
 

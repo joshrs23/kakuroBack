@@ -10,6 +10,7 @@ const app = express();
 const userRouter = require('./routes/users');
 const levelRouter = require('./routes/levels');
 const historyRouter = require('./routes/histories');
+const gameRouter = require('./routes/games');
 
 //app.use(cors());
 // Configuración de CORS
@@ -41,11 +42,14 @@ app.use('/get-records',express.json());
 app.use('/get-user-history',express.json());
 app.use('/add-history',express.json());
 
+//histories
+app.use('/create-game',express.json());
 
 //routes
 app.use(userRouter);
 app.use(levelRouter);
 app.use(historyRouter);
+app.use(gameRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
