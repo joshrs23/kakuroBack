@@ -168,7 +168,7 @@ exports.userEmail = async (req, res)=> {
 
         mg.messages.create(DOMAIN_MAILGUM, {
             from: "Excited User <joshrs23@gmail.com>",
-            to: ["joshrs23@gmail.com"],
+            to: [email],
             subject: "Kakuro game",
             text: "Esto es una prueba de envío de correo electrónico utilizando Mailgun.",
             html: `<h1>Hi ${user.fname}, from Kakuro Game</h1><p>If you want to change your password, please click the following link.</p><a href='${link}' target='_blank'>Change password</a>`
