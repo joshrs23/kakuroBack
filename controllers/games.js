@@ -30,6 +30,11 @@ exports.CreateGame = [auth,async (req, res) => {
 
             }
 
+            const oldGame = await Game.deleteOne({
+              userId: user_id,
+              status: false
+            });
+
             const randomBoard = await board.getBoards(levelId);
 
             const game = Game({ 
