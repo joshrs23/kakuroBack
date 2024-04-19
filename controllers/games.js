@@ -206,7 +206,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }else{//vertifacl
 
-                        Actualgame[1][j][row] = color; 
+                        Actualgame[1][j][column] = color; 
                     }
 
                 }
