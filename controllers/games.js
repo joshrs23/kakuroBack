@@ -154,6 +154,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                         pre_sum = pre_sum + actual_array;
 
                     }
+                    console.log("typeof: " + typeof actual_array);
                     /////////////
                     if(sum > 0 ){
                         console.log("sum si es mayor");
