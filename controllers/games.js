@@ -163,7 +163,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }
 
-                    if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') && && !isNaN(typeof Number(actual_array))){
+                    if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') && !isNaN(typeof Number(actual_array))){
 
                         pre_sum = pre_sum + Number(actual_array);
 
