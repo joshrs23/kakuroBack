@@ -121,11 +121,11 @@ exports.Evaulatemove = [auth,async (req, res) => {
                 for(let i=0; i < Actualgame[0].length;i++){
 
 
-                    actual_array = (count==0) ? Actualgame[0][row][i] : Actualgame[0][i][column];
+                    actual_array = (count==0) ? Actualgame[0][row][i] : Actualgame[0][i][column];console.log("actual_array: "+actual_array);
 
                     if( Array.isArray(actual_array) && sum == 0){
 
-                        sum = (count==0) ? actual_array[1] : actual_array[0];
+                        sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
                         indexInit = i + 1;
 
                     }else if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
@@ -155,11 +155,12 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }
 
-
+                    console.log("pre_sum: "+pre_sum);
                 }
-
+                console.log("validation: "+validation);
                 //color error
-                let color = (validation == false) ? 'red' : "white";
+                let color = (validation == false) ? 'red' : "white";console.log("color: "+color);
+                console.log("indexInit: "+indexInit);console.log("indexFinal: "+indexFinal);
 
                 for(let j = indexInit; j <= indexFinal; j++){
 
