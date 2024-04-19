@@ -168,7 +168,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                 //color error
                 let color = (validation == false) ? 'red' : "white";
-                console.log("//////////////");
+                
                 for(let j = indexInit; j <= indexFinal; j++){
                     
                     if(count == 0){//horizontal
