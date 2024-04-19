@@ -128,7 +128,15 @@ exports.Evaulatemove = [auth,async (req, res) => {
                         sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
                         indexInit = i + 1;continue;
 
-                    }else if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
+                    }
+
+                    if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') ){
+
+                        pre_sum = pre_sum + Number(actual_array);
+
+                    }
+                    
+                    if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
 
                         if( pre_sum <= sum ){//the move was good
 
@@ -149,12 +157,8 @@ exports.Evaulatemove = [auth,async (req, res) => {
                         }
 
 
-                    }else if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') ){
-
-                        pre_sum = pre_sum + Number(actual_array);
-
                     }
-                    
+
                     console.log("pre_sum: "+pre_sum);
                 }
                 console.log("validation: "+validation);
