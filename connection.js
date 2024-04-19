@@ -42,8 +42,9 @@ app.use('/get-records',express.json());
 app.use('/get-user-history',express.json());
 app.use('/add-history',express.json());
 
-//histories
+//games
 app.use('/create-game',express.json());
+app.use('/evaluate-move',express.json());
 
 //routes
 app.use(userRouter);
