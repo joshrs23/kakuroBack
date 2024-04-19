@@ -107,7 +107,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
             let count = 0;//0 looking in horizontal - 1 looking in vertical
             let sum;
             let pre_sum;
-            let validation; 
+            let validation = true; 
             let actual_array;
             let indexInit;
             let indexFinal;
@@ -116,7 +116,6 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                 sum = 0;
                 pre_sum = 0;
-                validation = false;
 
                 for(let i=0; i < Actualgame[0].length;i++){
 
@@ -171,11 +170,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     
                     if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
 
-                        if( pre_sum <= sum ){//the move was good
-
-                            validation = true;
-
-                        }else{//the move was bad
+                        if( pre_sum > sum ){//the move was good
 
                             validation = false;
 
@@ -194,27 +189,18 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     
                 }
-
-                //color error
-                let color = (validation == false) ? 'red' : "white";
-
-                for(let j = indexInit; j <= indexFinal; j++){
-                    console.log(j);
-                    if(count == 0){//horizontal
-                        console.log("entro");
-                        Actualgame[1][row][j] = color;
-
-                    }else{//vertical
-
-                        Actualgame[1][j][column] = color; 
-                    }
-
-                }
-                //color error                
+         
 
                 count = count +1;
 
             } 
+
+            //color error
+            let color = (validation == false) ? 'red' : "white";
+
+            Actualgame[1][row][column] = color; 
+                
+            //color error
 
             res.json({
 
