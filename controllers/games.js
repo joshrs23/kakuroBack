@@ -151,7 +151,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }else if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') ){
 
-                        pre_sum = pre_sum + actual_array;
+                        pre_sum = pre_sum + Number(actual_array);
 
                     }
                     /////////////
@@ -161,7 +161,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     if(!Array.isArray(actual_array) ){
                         console.log("actual_array no es array");
                     }
-                    if( (typeof actual_array === 'number') ){
+                    if( (typeof Number(actual_array) === 'number') ){
                         console.log("actual_array si es numero");
                     }
                     /////////////
