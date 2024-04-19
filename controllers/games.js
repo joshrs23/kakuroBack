@@ -199,12 +199,12 @@ exports.Evaulatemove = [auth,async (req, res) => {
                 let color = (validation == false) ? 'red' : "white";
 
                 for(let j = indexInit; j <= indexFinal; j++){
-
+                    console.log(j);
                     if(count == 0){//horizontal
-
+                        console.log("entro");
                         Actualgame[1][row][j] = color;
 
-                    }else{//vertifacl
+                    }else{//vertical
 
                         Actualgame[1][j][column] = color; 
                     }
