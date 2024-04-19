@@ -121,7 +121,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                 for(let i=0; i < Actualgame[0].length;i++){
 
 
-                    actual_array = (count==0) ? Actualgame[0][row][i] : Actualgame[0][i][column];console.log("actual_array: "+actual_array);
+                    actual_array = (count==0) ? Actualgame[0][row][i] : Actualgame[0][i][column];
 
                     /*
                     if( Array.isArray(actual_array) && sum == 0){
@@ -158,7 +158,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     if( Array.isArray(actual_array) && sum == 0){
 
-                        sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
+                        sum = (count==0) ? actual_array[1] : actual_array[0];
                         indexInit = i + 1;continue;
 
                     }
@@ -192,12 +192,11 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }
 
-                    console.log("pre_sum: "+pre_sum+ " "+(typeof Number(actual_array) === 'number') +" "+isNaN(Number(actual_array)));
+                    
                 }
-                console.log("validation: "+validation);
+
                 //color error
-                let color = (validation == false) ? 'red' : "white";console.log("color: "+color);
-                console.log("indexInit: "+indexInit);console.log("indexFinal: "+indexFinal);
+                let color = (validation == false) ? 'red' : "white";
 
                 for(let j = indexInit; j <= indexFinal; j++){
 
