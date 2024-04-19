@@ -178,7 +178,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                 count = count +1;
 
-            }
+            } 
 
             res.json({
 
