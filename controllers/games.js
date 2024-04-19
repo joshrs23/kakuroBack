@@ -126,7 +126,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     if( Array.isArray(actual_array) && sum == 0){
 
                         sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
-                        indexInit = i + 1;
+                        indexInit = i + 1;continue;
 
                     }else if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
 
@@ -154,7 +154,17 @@ exports.Evaulatemove = [auth,async (req, res) => {
                         pre_sum = pre_sum + actual_array;
 
                     }
+                    /////////////
+                    if(sum > 0 ){
 
+                    }
+                    if(!Array.isArray(actual_array) ){
+
+                    }
+                    if( (typeof actual_array === 'number') ){
+
+                    }
+                    /////////////
                     console.log("pre_sum: "+pre_sum);
                 }
                 console.log("validation: "+validation);
