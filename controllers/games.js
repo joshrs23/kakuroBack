@@ -192,7 +192,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }
 
-                    console.log("pre_sum: "+pre_sum);
+                    console.log("pre_sum: "+pre_sum+ " "+(typeof Number(actual_array) === 'number') +" "+isNaN(typeof Number(actual_array)));
                 }
                 console.log("validation: "+validation);
                 //color error
