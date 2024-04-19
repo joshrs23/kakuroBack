@@ -123,6 +123,39 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     actual_array = (count==0) ? Actualgame[0][row][i] : Actualgame[0][i][column];console.log("actual_array: "+actual_array);
 
+                    /*
+                    if( Array.isArray(actual_array) && sum == 0){
+
+                        sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
+                        indexInit = i + 1;continue;
+
+                    }else if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
+
+                        if( pre_sum <= sum ){//the move was good
+
+                            validation = true;
+
+                        }else{//the move was bad
+
+                            validation = false;
+
+                        }
+
+                        if( Array.isArray(actual_array) ){
+
+                            indexFinal = i - 1;
+
+                        }else{
+                            indexFinal = i;
+                        }
+
+
+                    }else if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') ){
+
+                        pre_sum = pre_sum + Number(actual_array);
+
+                    }*/
+
                     if( Array.isArray(actual_array) && sum == 0){
 
                         sum = (count==0) ? actual_array[1] : actual_array[0];console.log("sum: "+sum);
@@ -159,7 +192,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     }
 
-                    console.log("pre_sum: "+pre_sum);
+                    console.log("pre_sum: "+pre_sum+" "+(typeof Number(actual_array) === 'number')+" "+actual_array);
                 }
                 console.log("validation: "+validation);
                 //color error
