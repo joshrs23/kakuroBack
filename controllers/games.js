@@ -156,13 +156,13 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     }
                     /////////////
                     if(sum > 0 ){
-
+                        console.log("sum si es mayor");
                     }
                     if(!Array.isArray(actual_array) ){
-
+                        console.log("actual_array no es array");
                     }
                     if( (typeof actual_array === 'number') ){
-
+                        console.log("actual_array si es numero");
                     }
                     /////////////
                     console.log("pre_sum: "+pre_sum);
