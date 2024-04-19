@@ -172,9 +172,9 @@ exports.Evaulatemove = [auth,async (req, res) => {
                 for(let j = indexInit; j <= indexFinal; j++){
                     
                     if(count == 0){//horizontal
-                        console.log(Actualgame[1][row][j]);
+                        
                         Actualgame[1][row][j] = color;
-                        console.log(Actualgame[1][row][j]);
+                        
                     }else{//vertical
 
                         if(valGeneral == false && Actualgame[1][j][column] == "red"){
@@ -182,9 +182,8 @@ exports.Evaulatemove = [auth,async (req, res) => {
                             continue;
 
                         }else{
-                            console.log(Actualgame[1][j][column]);
+                            
                             Actualgame[1][j][column] = color; 
-                            console.log(Actualgame[1][j][column]);
                         }
                     }
 
