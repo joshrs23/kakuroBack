@@ -150,7 +150,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                         if( pre_sum <= sum ){//the move was good
 
-                            if(arrayRept.length == quantity){//validation for that maybe the sum is ok but they complete all the cell and the sum is less than the result
+                            if(pre_sum < sum && arrayRept.length == quantity){//validation for that maybe the sum is ok but they complete all the cell and the sum is less than the result
 
                                 validation = false;
                                 valGeneral = false;
