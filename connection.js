@@ -47,6 +47,7 @@ app.use('/create-game',express.json());
 app.use('/evaluate-move',express.json());
 app.use('/stop-game',express.json());
 app.use('/save-game',express.json());
+app.use('/validate-game',express.json());
 
 //routes
 app.use(userRouter);

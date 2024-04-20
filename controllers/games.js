@@ -3,6 +3,7 @@ const auth = require('../middlewares/authenticate');
 const Users = require('../models/users');
 const jwt = require('jsonwebtoken');
 const board = require('./boards');
+const history = require('./histories');
 
 exports.CreateGame = [auth,async (req, res) => {
 
@@ -366,6 +367,152 @@ exports.SavingGame = [auth,async (req, res) => {
                 });
 
             }
+
+        }else{
+
+            res.json({
+
+                success: false,
+                error: "This user is not the owner of the account.",
+
+            });
+        }
+
+    } catch (err) {
+
+        res.json({
+
+          success: false,
+          error: err.message,
+          
+        });
+
+    }
+
+}];
+
+
+exports.validateGame = [auth,async (req, res) => {
+
+    try {
+        const { user_id, Actualgame, level } = req.body;
+
+        const token = req.header('Authorization');
+        const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+        const _userId = decodedToken.userId;
+
+        if(user_id === _userId){
+
+            const ongoingGame = await Game.findOne({
+              userId: user_id,
+              status: true
+            });
+
+            if (!ongoingGame) {
+              
+                return res.json({
+                    success: false,
+                    error: 'User already has not an existing game!',
+                    game: null 
+                })
+
+            }
+
+            //validate colors
+            const colorArray = Actualgame[1];
+            let validation = true;
+
+            for (let row of colorArray) {
+                
+                for (let color of row) {
+                    
+                    if (color === 'red') {
+
+                        validation = false;
+                        break;
+
+                    }
+                }
+
+                if (validation === false) {
+
+                    break;
+
+                }
+            }
+            //validate colors
+
+            //validate numbers
+            const numbersArray = Actualgame[0];
+
+            if(validation == true){
+
+                for (let row of numbersArray) {
+                    
+                    for (let color of row) {
+                        
+                        if (color === 'white') {
+
+                            validation = false;
+                            break;
+
+                        }
+                    }
+
+                    if (validation === false) {
+
+                        break;
+
+                    }
+                }
+            }
+            //validate numbres
+
+            if(validation == true){
+
+                //diference on date
+                const givenDate = new Date(ongoingGame.time);
+                const now = new Date();
+                const differenceInMilliseconds = now.getTime() - givenDate.getTime();
+                const differenceInSeconds = differenceInMilliseconds / 1000;
+                //diference on date
+
+                //aca sacar el dia con hora, sacar la diferencia y agregar al history
+                const hist = history({ 
+                    userId: user_id, 
+                    level: level,
+                    time: differenceInSeconds
+                });
+
+                await hist.save();
+
+                const result = await Game.updateOne({ userId: user_id }, { $set: { status: false  } });
+
+                if (result.modifiedCount === 1) {
+
+                    return res.json({
+                        success: true,
+                        msg : 'Congratulations, you finished the game!'
+                    });
+
+                } else {
+                  
+                    return res.json({
+                        success: false,
+                        msg: 'Error finishing the game, try again!',
+                    });
+
+                }
+
+            }else{
+
+                return res.json({
+                    success: false,
+                    msg: 'Error you still have mistakes, try again, try again!',
+                });
+
+            }
+                
 
         }else{
 
