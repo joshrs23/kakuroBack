@@ -26,7 +26,8 @@ exports.CreateGame = [auth,async (req, res) => {
                 return res.json({
                     success: false,
                     error: 'User already has an existing game!',
-                    game: ongoingGame.game 
+                    game: ongoingGame.game, 
+                    time: ongoingGame.time,
                 })
 
             }
