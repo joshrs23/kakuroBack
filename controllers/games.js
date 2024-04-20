@@ -261,28 +261,26 @@ exports.StopGame = [auth,async (req, res) => {
                 return res.json({
                     success: false,
                     error: 'User already has not an existing game!',
-                    game: ongoingGame.game 
+                    game: null 
                 })
 
             }
-
-
 
             const result = await Game.updateOne({ _id: user_id }, { $set: { status: false  } });
 
             if (result.modifiedCount === 1) {
 
-                return {
+                return res.json({
                     success: true,
                     msg : ''
-                };
+                });
 
             } else {
               
-              return {
+                return res.json({
                     success: false,
                     msg: 'Error stoping the game, try again!',
-              };
+                });
 
             }
 
@@ -330,28 +328,26 @@ exports.SavingGame = [auth,async (req, res) => {
                 return res.json({
                     success: false,
                     error: 'User already has not an existing game!',
-                    game: ongoingGame.game 
+                    game: null 
                 })
 
             }
-
-
 
             const result = await Game.updateOne({ _id: user_id }, { $set: { game: Actualgame  } });
 
             if (result.modifiedCount === 1) {
 
-                return {
+                return res.json({
                     success: true,
                     msg : ''
-                };
+                });
 
             } else {
               
-              return {
+                return res.json({
                     success: false,
-                    msg: 'Error stoping the game, try again!',
-              };
+                    msg: 'Error saving the game, try again!',
+                });
 
             }
 
