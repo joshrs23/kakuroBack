@@ -166,17 +166,24 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     
                 }
 
+                console.log("////////inicio////////");
+                console.log("sum "+sum);
+                console.log("pre_sum "+pre_sum);
+                console.log("validation "+validation);
+                console.log("posicion "+row+" "+column);
+                console.log("index "+indexInit+" "+indexFinal);
                 //color error
                 let color = (validation == false) ? 'red' : "white";
-                
+                console.log("color");
+                console.log("////////");
                 for(let j = indexInit; j <= indexFinal; j++){
                     
                     if(count == 0){//horizontal
-                        
+                        console.log(Actualgame[1][row][j]+" "+Actualgame[0][row][j]);
                         Actualgame[1][row][j] = color;
-                        
+                        console.log(Actualgame[1][row][j]+" "+Actualgame[0][row][j]);
                     }else{//vertical
-
+                        console.log(Actualgame[1][j][column]+" "+Actualgame[0][j][column]);
                         if(valGeneral == false && Actualgame[1][j][column] == "red"){
 
                             continue;
@@ -185,6 +192,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                             
                             Actualgame[1][j][column] = color; 
                         }
+                        console.log(Actualgame[1][j][column]+" "+Actualgame[0][j][column]);
                     }
 
                 }
