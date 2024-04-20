@@ -474,7 +474,7 @@ exports.validateGame = [auth,async (req, res) => {
                 const givenDate = new Date(ongoingGame.time);
                 const now = new Date();
                 const differenceInMilliseconds = now.getTime() - givenDate.getTime();
-                const differenceInSeconds = differenceInMilliseconds / 1000;
+                const differenceInSeconds = (differenceInMilliseconds / 1000)/60;
                 //diference on date
 
                 //aca sacar el dia con hora, sacar la diferencia y agregar al history
