@@ -113,6 +113,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
             let indexFinal;
             let valGeneral = true;
             let arrayRept;
+            let quantity;
 
             while(count < 2){
 
@@ -120,6 +121,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                 pre_sum = 0;
                 validation = false;
                 arrayRept = [];
+                quantity = 0;
 
                 for(let i=0; i < Actualgame[0].length;i++){
 
@@ -141,12 +143,14 @@ exports.Evaulatemove = [auth,async (req, res) => {
                         arrayRept.push(actual_array);
 
                     }
+
+                    quantity = quantity +1;//for the validation of completed but sum is less
                     
                     if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
 
                         if( pre_sum <= sum ){//the move was good
 
-                            if(arrayRept.length == Actualgame[0].length){//validation for that maybe the sum is ok but they complete all the cell and the sum is less than the result
+                            if(arrayRept.length == quantity){//validation for that maybe the sum is ok but they complete all the cell and the sum is less than the result
 
                                 validation = false;
                                 valGeneral = false;
