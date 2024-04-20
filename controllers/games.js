@@ -174,6 +174,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     let uniqueElements = new Set(arrayRept);
                     if(uniqueElements.size !== arrayRept.length){
                         validation = false;
+                        valGeneral = false;
                     }
                 }
                 //validate repetition
