@@ -266,7 +266,7 @@ exports.StopGame = [auth,async (req, res) => {
 
             }
 
-            const result = await Game.updateOne({ _id: user_id }, { $set: { status: false  } });
+            const result = await Game.updateOne({ userId: user_id }, { $set: { status: false  } });
 
             if (result.modifiedCount === 1) {
 
@@ -333,7 +333,7 @@ exports.SavingGame = [auth,async (req, res) => {
 
             }
 
-            const result = await Game.updateOne({ _id: user_id }, { $set: { game: Actualgame  } });
+            const result = await Game.updateOne({ userId: user_id }, { $set: { game: Actualgame  } });
 
             if (result.modifiedCount === 1) {
 
