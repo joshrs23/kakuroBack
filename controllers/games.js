@@ -146,7 +146,16 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                         if( pre_sum <= sum ){//the move was good
 
-                            validation = true;
+                            if(arrayRept.length == Actualgame[0].length){//validation for that maybe the sum is ok but they complete all the cell and the sum is less than the result
+
+                                validation = false;
+                                valGeneral = false;
+
+                            }else{
+
+                                validation = true;
+
+                            }
 
                         }else{//the move was bad
 
@@ -171,11 +180,14 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                 //validate repetition
                 if(validation == true){
+
                     let uniqueElements = new Set(arrayRept);
+
                     if(uniqueElements.size !== arrayRept.length){
                         validation = false;
                         valGeneral = false;
                     }
+
                 }
                 //validate repetition
 
