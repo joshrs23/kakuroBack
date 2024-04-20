@@ -112,12 +112,14 @@ exports.Evaulatemove = [auth,async (req, res) => {
             let indexInit;
             let indexFinal;
             let valGeneral = true;
+            let arrayRept;
 
             while(count < 2){
 
                 sum = 0;
                 pre_sum = 0;
                 validation = false;
+                arrayRept = [];
 
                 for(let i=0; i < Actualgame[0].length;i++){
 
@@ -136,6 +138,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
                     if(sum > 0 && !Array.isArray(actual_array) && (typeof Number(actual_array) === 'number') && !isNaN(Number(actual_array))){
 
                         pre_sum = pre_sum + Number(actual_array);
+                        arrayRept.push(actual_array);
 
                     }
                     
@@ -165,6 +168,15 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
                     
                 }
+
+                //validate repetition
+                if(validation == true){
+                    let uniqueElements = new Set(arrayRept);
+                    if(uniqueElements.size !== arrayRept.length){
+                        validation = false;
+                    }
+                }
+                //validate repetition
 
                 //color error
                 let color = (validation == false) ? 'red' : "white";
