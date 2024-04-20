@@ -3,7 +3,7 @@ const auth = require('../middlewares/authenticate');
 const Users = require('../models/users');
 const jwt = require('jsonwebtoken');
 const board = require('./boards');
-const history = require('./histories');
+const history = require('../models/histories');
 
 exports.CreateGame = [auth,async (req, res) => {
 
