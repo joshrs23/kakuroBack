@@ -351,6 +351,15 @@ exports.SavingGame = [auth,async (req, res) => {
 
             }
 
+            if( JSON.stringify(ongoingGame.game) === JSON.stringify(Actualgame) ){
+
+                return res.json({
+                    success: true,
+                    msg : ''
+                });
+
+            }
+
             const result = await Game.updateOne({ userId: user_id }, { $set: { game: Actualgame  } });
 
             if (result.modifiedCount === 1) {
