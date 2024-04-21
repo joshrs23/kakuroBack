@@ -23,7 +23,7 @@ exports.getHistories  = [auth,async(req, res)=>{
 
             const userIds = histories.map(history => history.userId);
 
-            const users = await User.find({ '_id': { $in: userIds.map(id => mongoose.Types.ObjectId(id)) } }).select('username');
+            const users = await Users.find({ '_id': { $in: userIds.map(id => mongoose.Types.ObjectId(id)) } }).select('username');
 
             const userMap = users.reduce((map, user) => {
                 map[user._id.toString()] = user.username;
