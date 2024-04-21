@@ -21,10 +21,25 @@ exports.getHistories  = [auth,async(req, res)=>{
 
         } else {
 
+            const userIds = histories.map(history => history.userId);
+
+            const users = await User.find({ '_id': { $in: userIds.map(id => mongoose.Types.ObjectId(id)) } }).select('username');
+
+            const userMap = users.reduce((map, user) => {
+                map[user._id.toString()] = user.username;
+                return map;
+            }, {});
+
+            const enrichedHistories = histories.map(history => ({
+                ...history.toObject(),
+                username: userMap[history.userId]
+            }));
+
+
             res.json({
 
                 success: true,
-                histories: histories,
+                histories: enrichedHistories,
 
             });
 
