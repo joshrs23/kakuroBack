@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const board = require('./boards');
 const history = require('../models/histories');
 
-exports.CreateGame = [auth,async (req, res) => {
+exports.StartGame = [auth,async (req, res) => {
 
     try {
         const { user_id, levelId } = req.body;
@@ -81,7 +81,7 @@ exports.CreateGame = [auth,async (req, res) => {
 }];
 
 
-exports.Evaulatemove = [auth,async (req, res) => {
+exports.Evaluatemove = [auth,async (req, res) => {
 
     try {
         const { user_id, Actualgame, row, column } = req.body;
@@ -258,7 +258,7 @@ exports.Evaulatemove = [auth,async (req, res) => {
 
 }];
 
-exports.StopGame = [auth,async (req, res) => {
+exports.QuitGame = [auth,async (req, res) => {
 
     try {
         const { user_id } = req.body;
@@ -325,7 +325,7 @@ exports.StopGame = [auth,async (req, res) => {
 
 }];
 
-exports.SavingGame = [auth,async (req, res) => {
+exports.SaveGame = [auth,async (req, res) => {
 
     try {
         const { user_id, Actualgame } = req.body;
