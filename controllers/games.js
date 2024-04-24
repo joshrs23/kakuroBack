@@ -146,7 +146,9 @@ exports.Evaluatemove = [auth,async (req, res) => {
 
                     }
 
-                    quantity = quantity +1;//for the validation of completed but sum is less
+                    if( !Array.isArray(actual_array) &&  actual_array!="black"){
+                        quantity = quantity +1;//for the validation of completed but sum is less
+                    }
                     
                     if( sum > 0 &&  ( Array.isArray(actual_array) || i == (Actualgame[0].length - 1) ) ){
 
@@ -402,6 +404,7 @@ exports.SaveGame = [auth,async (req, res) => {
 }];
 
 
+/*
 exports.validateGame = [auth,async (req, res) => {
 
     try {
@@ -479,6 +482,192 @@ exports.validateGame = [auth,async (req, res) => {
             //validate numbres
 
             if(validation == true){
+
+                //diference on date
+                const givenDate = new Date(ongoingGame.time);
+                const now = new Date();
+                const differenceInMilliseconds = now.getTime() - givenDate.getTime();
+                const differenceInSeconds = (differenceInMilliseconds / 1000)/60;
+                //diference on date
+
+                //aca sacar el dia con hora, sacar la diferencia y agregar al history
+                const hist = history({ 
+                    userId: user_id, 
+                    level: level,
+                    time: differenceInSeconds
+                });
+
+                await hist.save();
+
+                const result = await Game.updateOne({ userId: user_id }, { $set: { status: false  } });
+
+                if (result.modifiedCount === 1) {
+
+                    return res.json({
+                        success: true,
+                        msg : 'Congratulations, you finished the game!'
+                    });
+
+                } else {
+                  
+                    return res.json({
+                        success: false,
+                        msg: 'Error finishing the game, try again!',
+                    });
+
+                }
+
+            }else{
+
+                return res.json({
+                    success: false,
+                    msg: 'Error you still have mistakes, try again, try again!',
+                });
+
+            }
+                
+
+        }else{
+
+            res.json({
+
+                success: false,
+                error: "This user is not the owner of the account.",
+
+            });
+        }
+
+    } catch (err) {
+
+        res.json({
+
+          success: false,
+          error: err.message,
+          
+        });
+
+    }
+
+}];
+*/
+
+exports.validateGame = [auth,async (req, res) => {
+
+    try {
+        const { user_id, Actualgame, level } = req.body;
+
+        const token = req.header('Authorization');
+        const decodedToken = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+        const _userId = decodedToken.userId;
+
+        if(user_id === _userId){
+
+            const ongoingGame = await Game.findOne({
+              userId: user_id,
+              status: true
+            });
+
+            if (!ongoingGame) {
+              
+                return res.json({
+                    success: false,
+                    error: 'User already has not an existing game!',
+                    game: null 
+                })
+
+            }
+
+            // Validate colors
+            const colorArray = Actualgame[1];
+            let valid = true;
+
+            // Validación horizontal
+            for (let row = 0; row < Actualgame[0].length; row++) {
+                let sum = 0;
+                let pre_sum = 0;
+                let arrayRept = [];
+                let quantity = 0;
+
+                for (let column = 0; column < Actualgame[0][row].length; column++) {
+                    const cell = Actualgame[0][row][column];
+
+                    if (Array.isArray(cell) && sum === 0) {
+                        sum = cell[1];
+                        continue;
+                    }
+
+                    if (sum > 0 && !Array.isArray(cell) && !isNaN(Number(cell))) {
+                        pre_sum += Number(cell);
+                        arrayRept.push(cell);
+                    }
+
+                    if (!Array.isArray(cell) && cell !== "black") {
+                        quantity++;
+                    }
+
+                    if (sum > 0 && (Array.isArray(cell) || column === Actualgame[0][row].length - 1)) {
+                        if (pre_sum !== sum || (pre_sum < sum && arrayRept.length === quantity)) {
+                            valid = false;
+                        }
+
+                        // Validar repetición de números en la misma suma
+                        const uniqueElements = new Set(arrayRept);
+                        if (uniqueElements.size !== arrayRept.length) {
+                            valid = false;
+                        }
+
+                        sum = 0;
+                        pre_sum = 0;
+                        arrayRept = [];
+                        quantity = 0;
+                    }
+                }
+            }
+
+            // Validación vertical
+            for (let column = 0; column < Actualgame[0][0].length; column++) {
+                let sum = 0;
+                let pre_sum = 0;
+                let arrayRept = [];
+                let quantity = 0;
+
+                for (let row = 0; row < Actualgame[0].length; row++) {
+                    const cell = Actualgame[0][row][column];
+
+                    if (Array.isArray(cell) && sum === 0) {
+                        sum = cell[0];
+                        continue;
+                    }
+
+                    if (sum > 0 && !Array.isArray(cell) && !isNaN(Number(cell))) {
+                        pre_sum += Number(cell);
+                        arrayRept.push(cell);
+                    }
+
+                    if (!Array.isArray(cell) && cell !== "black") {
+                        quantity++;
+                    }
+
+                    if (sum > 0 && (Array.isArray(cell) || row === Actualgame[0].length - 1)) {
+                        if (pre_sum !== sum || (pre_sum < sum && arrayRept.length === quantity)) {
+                            valid = false;
+                        }
+
+                        // Validar repetición de números en la misma suma
+                        const uniqueElements = new Set(arrayRept);
+                        if (uniqueElements.size !== arrayRept.length) {
+                            valid = false;
+                        }
+
+                        sum = 0;
+                        pre_sum = 0;
+                        arrayRept = [];
+                        quantity = 0;
+                    }
+                }
+            }
+
+            if(valid  == true){
 
                 //diference on date
                 const givenDate = new Date(ongoingGame.time);
